@@ -1,11 +1,26 @@
 package photobooth.model;
 
+import org.bytedeco.javacv.FrameGrabber;
+
 /**
  * This interface represents the model of this Photobooth app. It deals with functionality
  * relating to capturing photos, storing photos, and printing photos.
  */
 public interface PhotoboothModel {
 
+  /**
+   * Starts camera.
+   *
+   * @throws IllegalStateException if camera cannot be accessed
+   */
+  void startCamera() throws FrameGrabber.Exception;
+
+  /**
+   * Stops camera.
+   *
+   * @throws IllegalStateException if camera cannot be accessed
+   */
+  void stopCamera() throws FrameGrabber.Exception;
 
   /**
    * Snaps a photo.
