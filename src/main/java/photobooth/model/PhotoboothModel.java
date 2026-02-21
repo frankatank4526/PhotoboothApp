@@ -41,6 +41,12 @@ public interface PhotoboothModel {
   void takePhoto(String filename);
 
   /**
+   * Finds a PrintService by name and sets it as the Photobooth's PrintJob's PrintService.
+   * @param printerName name of the PrintService
+   * @throws IllegalArgumentException if no such PrintService exists
+   */
+  void setupPrinter(String printerName);
+  /**
    * Prints a photo. Takes in an idx, which indicates which photo to print.
    *
    * @param idx the index describing which photo to print (0-indexed)
