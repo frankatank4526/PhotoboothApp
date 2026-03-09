@@ -35,6 +35,15 @@ import java.nio.file.Path;
  *
  * Converting IplImage to Image:
  * <a href="https://stackoverflow.com/questions/31873704/javacv-how-to-convert-iplimage-tobufferedimage"></a>
+ *
+ * Fixing Maven Dependency Issues (for personal reference):
+ * <a href="https://stackoverflow.com/questions/15046764/intellij-idea-not-recognizing-classes-specified-in-maven-dependencies"></a>
+ *
+ * OpenCV Docs:
+ * <a href="https://bytedeco.org/javacv/apidocs/org/bytedeco/javacv/OpenCVFrameGrabber.html#grab--"></a>
+ * <a href="https://docs.opencv.org/3.4/javadoc/org/opencv/videoio/VideoCapture.html#grab()"></a>
+ *
+ *
  */
 /*
 TODO: Basic Printing implementation, Setup JSwing

@@ -1,0 +1,12 @@
+photobooth\model\PhotoboothModel.class
+photobooth\view\PhotoboothFeatures.class
+photobooth\model\PhotoboothListener.class
+photobooth\model\Photobooth$1.class
+photobooth\view\PhotoboothView.class
+photobooth\controller\PhotoboothController.class
+photobooth\PhotoboothApp.class
+photobooth\view\InfoPanel.class
+photobooth\model\Photobooth.class
+photobooth\view\MainPanel.class
+photobooth\view\PhotoboothGUIView.class
+photobooth\view\ControlPanel.class
