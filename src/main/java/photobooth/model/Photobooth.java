@@ -53,6 +53,7 @@ public class Photobooth implements PhotoboothModel {
   private boolean cameraOn = false;
   private int fileCount = 0;
   private PrinterJob printerJob;
+  private PhotoboothListener photoboothListener;
 
   /**
    * Constructor for a Photobooth.
@@ -73,6 +74,10 @@ public class Photobooth implements PhotoboothModel {
   }
 
   @Override
+  public void addListener(PhotoboothListener listener) {
+    photoboothListener = listener;
+  }
+  @Override
   public void startCamera() {
     try {
       grabber.start();
@@ -87,14 +92,22 @@ public class Photobooth implements PhotoboothModel {
     try {
       grabber.stop();
       cameraOn = false;
-      grabber.release();
+      //grabber.release(); move for when closing app at end
     } catch (FrameGrabber.Exception error) {
       throw new IllegalStateException("Camera failed to stop");
     }
   }
 
   @Override
-  public IplImage getFrame() {
+  public Frame getFrame() {
+    try {
+      return grabber.grab();
+    } catch (FrameGrabber.Exception error) {
+      throw new IllegalStateException("Camera failed to grab");
+    }
+  }
+  @Override
+  public IplImage grabAndConvert() {
     try {
       return convertFrame(grabber.grab());
     } catch (FrameGrabber.Exception error) {
@@ -108,7 +121,7 @@ public class Photobooth implements PhotoboothModel {
     if (!cameraOn) {
       throw new IllegalStateException("Cannot take photo; camera is off");
     }
-    IplImage img = getFrame();
+    IplImage img = grabAndConvert();
     fileCount++;
     opencv_imgcodecs.cvSaveImage("photo_" + fileCount + ".jpg", img);
 

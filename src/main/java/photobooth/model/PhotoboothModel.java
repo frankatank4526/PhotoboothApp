@@ -1,6 +1,7 @@
 package photobooth.model;
 
 import java.io.IOException;
+import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.FrameGrabber;
 import org.bytedeco.opencv.opencv_core.IplImage;
 
@@ -10,6 +11,11 @@ import org.bytedeco.opencv.opencv_core.IplImage;
  */
 public interface PhotoboothModel {
 
+  /**
+   * Grabs the next frame and returns it (as a Frame).
+   * @throws FrameGrabber.Exception if the next frame cannot be grabbed.
+   */
+  Frame getFrame();
   /**
    * Starts camera.
    *
@@ -25,12 +31,12 @@ public interface PhotoboothModel {
   void stopCamera() throws FrameGrabber.Exception;
 
   /**
-   * Gets the next frame to display on video feed.
+   * Grabs the next frame and converts to IplImage. Returns the converted image.
    *
    * @return the next frame as an IplImage
    * @throws FrameGrabber.Exception if the next frame cannot be grabbed
    */
-  IplImage getFrame() throws FrameGrabber.Exception;
+  IplImage grabAndConvert() throws FrameGrabber.Exception;
 
   /**
    * Snaps a photo.
@@ -72,5 +78,9 @@ public interface PhotoboothModel {
    */
   void deleteAllPhotos() throws IOException;
 
+  /**
+   * Adds listener to the model.
+   */
+  void addListener(PhotoboothListener listener);
 
 }

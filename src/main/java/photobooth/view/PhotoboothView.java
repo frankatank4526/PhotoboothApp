@@ -1,5 +1,7 @@
 package photobooth.view;
 
+import java.awt.image.BufferedImage;
+
 /**
  * Interface for graphical Photobooth View. Implementations should use JSwing to implement a
  * GUI that allows users to take photos and print them.
@@ -7,6 +9,11 @@ package photobooth.view;
  */
 public interface PhotoboothView {
 
+  /**
+   * Displays a message to the user.
+   * @param message the message to be shown
+   */
+  void displayMessage(String message);
   /**
    * Register callbacks for user actions.
    */
@@ -22,5 +29,10 @@ public interface PhotoboothView {
    */
   void makeVisible();
 
+  /**
+   * Updates the live feed frames.
+   * @param image image to be displayed
+   */
+  void updateDisplayFrame(BufferedImage image);
 
 }

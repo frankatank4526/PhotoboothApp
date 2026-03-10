@@ -6,6 +6,11 @@ package photobooth.view;
 public interface PhotoboothFeatures {
 
   /**
+   * Called when user "starts camera" via the GUI. Executes necessary
+   * functionality for live feed to begin showing.
+   */
+  void startCameraClicked();
+  /**
    * Called when user "takes photo" via the GUI. Executes necessary
    * functionality for photo to be taken and saved.
    */
@@ -29,7 +34,10 @@ public interface PhotoboothFeatures {
    */
   void allPhotoDeleteClicked();
 
-
+  /**
+   * Called when "stopping camera" functionality is needed.
+   */
+  void stopCamera();
 
 
 
