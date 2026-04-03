@@ -19,14 +19,14 @@ public class InfoPanel extends JPanel {
   public InfoPanel() {
     title = new JLabel();
     title.setHorizontalAlignment(JLabel.LEFT);
-    setSize(1200, 300);
+    setSize(800, 300);
     add(title);
 
   }
 
   @Override
   public Dimension getPreferredSize(){
-    return new Dimension(1200, 300);
+    return new Dimension(800, 150);
   }
   @Override
   protected void paintComponent(Graphics g) {

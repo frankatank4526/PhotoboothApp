@@ -116,6 +116,7 @@ public class Photobooth implements PhotoboothModel {
 
   }
 
+  //NOTE: filename arg is not currently being used.
   @Override
   public void takePhoto(String filename) {
     if (!cameraOn) {
@@ -124,7 +125,7 @@ public class Photobooth implements PhotoboothModel {
     IplImage img = grabAndConvert();
     fileCount++;
     opencv_imgcodecs.cvSaveImage("photo_" + fileCount + ".jpg", img);
-
+    System.out.println("Saved image as photo_" + fileCount + ".jpg");
 
   }
 

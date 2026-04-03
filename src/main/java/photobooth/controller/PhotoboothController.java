@@ -1,6 +1,7 @@
 package photobooth.controller;
 
 import java.awt.image.BufferedImage;
+import java.util.List;
 import javax.swing.SwingWorker;
 import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.FrameGrabber;
@@ -16,7 +17,7 @@ import photobooth.view.PhotoboothView;
  * Controller for the Photobooth app. Mediates communication between model and view.
  */
 public class PhotoboothController implements PhotoboothListener, PhotoboothFeatures {
-  private SwingWorker<Void, Mat> liveFeedWorker;
+  private SwingWorker<Void, BufferedImage> liveFeedWorker;
   private boolean liveFeedOn = false;
   private PhotoboothModel model;
   private PhotoboothView view;
@@ -30,7 +31,7 @@ public class PhotoboothController implements PhotoboothListener, PhotoboothFeatu
     model.addListener(this);
     view.addFeatures(this);
 
-    liveFeedWorker = new SwingWorker<Void, Mat>() {
+    liveFeedWorker = new SwingWorker<Void, BufferedImage>() {
       @Override
       protected Void doInBackground() throws Exception {
         while (liveFeedOn) {
@@ -41,15 +42,23 @@ public class PhotoboothController implements PhotoboothListener, PhotoboothFeatu
               // https://stackoverflow.com/questions/31873704/javacv-how-to-convert-iplimage-tobufferedimage
               Java2DFrameConverter paintConverter = new Java2DFrameConverter();
               BufferedImage bufferedImage = paintConverter.getBufferedImage(frame, 1);
+              publish(bufferedImage);
               view.updateDisplayFrame(bufferedImage);
               view.refresh();
+
             }
-          }  catch(IllegalStateException e){
+          } catch (IllegalStateException e) {
             // skip the frame
+            System.err.println("skipped frame");
           }
 
         }
         return null;
+      }
+      @Override
+      protected void done() {
+        // TODO: send image to view to update camera frame when not showing live feed.
+        System.out.println("swingworker finished");
       }
     };
   }
@@ -95,9 +104,10 @@ public class PhotoboothController implements PhotoboothListener, PhotoboothFeatu
   @Override
   public void stopCamera() {
     try {
-      model.stopCamera();
-      liveFeedWorker.cancel(true);
+
       liveFeedOn = false;
+      liveFeedWorker.cancel(true);
+      model.stopCamera();
     } catch (Exception e) {
       view.displayMessage("Error stopping camera");
     }
@@ -105,7 +115,7 @@ public class PhotoboothController implements PhotoboothListener, PhotoboothFeatu
 
   @Override
   public void photoCaptureClicked() {
-
+    model.takePhoto("testing");
   }
 
   @Override

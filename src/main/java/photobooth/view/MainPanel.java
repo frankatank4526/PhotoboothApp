@@ -24,7 +24,7 @@ public class MainPanel extends JPanel {
     super.paintComponent(g);
     if (image != null) {
       // https://stackoverflow.com/questions/23457754/how-to-flip-bufferedimage-in-java
-      g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(),
+      g.drawImage(image, 0, 0, this.getWidth(),  this.getHeight(),
           this.image.getWidth(), 0, 0, this.image.getHeight(), null);
     }
   }
