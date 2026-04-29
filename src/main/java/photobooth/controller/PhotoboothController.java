@@ -31,36 +31,7 @@ public class PhotoboothController implements PhotoboothListener, PhotoboothFeatu
     model.addListener(this);
     view.addFeatures(this);
 
-    liveFeedWorker = new SwingWorker<Void, BufferedImage>() {
-      @Override
-      protected Void doInBackground() throws Exception {
-        while (liveFeedOn) {
-          try {
-            Frame frame = model.getFrame();
 
-            if (frame != null) {
-              // https://stackoverflow.com/questions/31873704/javacv-how-to-convert-iplimage-tobufferedimage
-              Java2DFrameConverter paintConverter = new Java2DFrameConverter();
-              BufferedImage bufferedImage = paintConverter.getBufferedImage(frame, 1);
-              publish(bufferedImage);
-              view.updateDisplayFrame(bufferedImage);
-              view.refresh();
-
-            }
-          } catch (IllegalStateException e) {
-            // skip the frame
-            System.err.println("skipped frame");
-          }
-
-        }
-        return null;
-      }
-      @Override
-      protected void done() {
-        // TODO: send image to view to update camera frame when not showing live feed.
-        System.out.println("swingworker finished");
-      }
-    };
   }
 
   @Override
@@ -94,6 +65,36 @@ public class PhotoboothController implements PhotoboothListener, PhotoboothFeatu
     try {
       model.startCamera();
       liveFeedOn = true;
+      liveFeedWorker = new SwingWorker<Void, BufferedImage>() {
+        @Override
+        protected Void doInBackground() throws Exception {
+          while (liveFeedOn) {
+            try {
+              Frame frame = model.getFrame();
+
+              if (frame != null) {
+                // https://stackoverflow.com/questions/31873704/javacv-how-to-convert-iplimage-tobufferedimage
+                Java2DFrameConverter paintConverter = new Java2DFrameConverter();
+                BufferedImage bufferedImage = paintConverter.getBufferedImage(frame, 1);
+                view.updateDisplayFrame(bufferedImage);
+                view.refresh();
+
+              }
+            } catch (IllegalStateException e) {
+              // skip the frame
+              System.err.println("skipped frame");
+              break;
+            }
+
+          }
+          return null;
+        }
+        @Override
+        protected void done() {
+          // TODO: send image to view to update camera frame when not showing live feed.
+          System.out.println("swingworker finished");
+        }
+      };
       liveFeedWorker.execute();
 
     } catch (Exception e) {
@@ -107,6 +108,7 @@ public class PhotoboothController implements PhotoboothListener, PhotoboothFeatu
 
       liveFeedOn = false;
       liveFeedWorker.cancel(true);
+
       model.stopCamera();
     } catch (Exception e) {
       view.displayMessage("Error stopping camera");
@@ -120,6 +122,7 @@ public class PhotoboothController implements PhotoboothListener, PhotoboothFeatu
 
   @Override
   public void photoPrintClicked() {
+    model.printPhoto(1);
 
   }
 

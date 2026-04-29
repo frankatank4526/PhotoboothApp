@@ -20,7 +20,8 @@ public class PhotoboothGUIView extends JFrame implements PhotoboothView {
   private final ControlPanel controlPanel;
   private final MainPanel mainPanel;
   private PhotoboothFeatures features;
-  private boolean cameraOn = false;
+
+
   /**
    * Constructor for PhotoboothGUIView.
    */
@@ -56,6 +57,7 @@ public class PhotoboothGUIView extends JFrame implements PhotoboothView {
     JOptionPane.showMessageDialog(this, message);
 
   }
+
   @Override
   public void addFeatures(PhotoboothFeatures features) {
     this.features = features;
@@ -81,35 +83,44 @@ public class PhotoboothGUIView extends JFrame implements PhotoboothView {
   /**
    * JPanel that shows user controls. Intended to be drawn at bottom of screen.
    */
-  protected class ControlPanel extends JPanel {
-
+  public class ControlPanel extends JPanel {
+    private boolean cameraOn = false;
     JButton startButton;
     JButton takePictureButton;
+    JButton printButton;
     JPanel buttonPanel;
+
     public ControlPanel() {
-      JButton startButton = new JButton("Start/Stop");
+      startButton = new JButton("Start/Stop");
       startButton.addActionListener(e -> {
         cameraOn = !cameraOn;
         if (cameraOn) {
           features.startCameraClicked();
-        }
-        else {
+        } else {
           features.stopCamera();
         }
-      } );
-
-      JButton takePictureButton = new JButton("Take Photo");
+      });
+      /*
+      Currently can only print the first photo taken.
+      TODO: be able to select which photo to print.
+       */
+      printButton = new JButton("Print Photo");
+      printButton.addActionListener( e -> {
+        features.photoPrintClicked();
+      });
+      takePictureButton = new JButton("Take Photo");
       takePictureButton.addActionListener(e -> {
 
         if (cameraOn) {
           features.photoCaptureClicked();
         }
 
-      } );
+      });
       buttonPanel = new JPanel();
       buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
       buttonPanel.add(startButton);
       buttonPanel.add(takePictureButton);
+      buttonPanel.add(printButton);
       add(buttonPanel);
     }
 
@@ -117,9 +128,11 @@ public class PhotoboothGUIView extends JFrame implements PhotoboothView {
     public Dimension getPreferredSize() {
       return new Dimension(400, 40);
     }
+
     @Override
     public void paintComponent(Graphics g) {
       super.paintComponent(g);
     }
   }
+
 }

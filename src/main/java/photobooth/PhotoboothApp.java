@@ -17,7 +17,7 @@ public static void main(String[] args) {
   PhotoboothModel model = new Photobooth(0, 800, 600);
   PhotoboothController controller = new PhotoboothController(model, view);
 
-  view.setVisible(true);
+  view.makeVisible();
 
   view.refresh();
 

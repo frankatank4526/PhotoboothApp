@@ -153,7 +153,7 @@ public class Photobooth implements PhotoboothModel {
   @Override
   public void printPhoto(int idx) {
     // Later, need to add whether it's printing original image or modified image.
-    if (fileCount < 0 || idx >= fileCount) {
+    if (fileCount < 1 || idx > fileCount) {
       throw new IllegalArgumentException("Invalid index: " + idx);
     }
     // Source - see references section, under "Converting IplImage to Image"
@@ -170,14 +170,15 @@ public class Photobooth implements PhotoboothModel {
         if (pageIndex != 0) {
           return NO_SUCH_PAGE;
         }
-        graphics.drawImage(imageToPrint, 0, 0, imageToPrint.getWidth(null) * 9,
-            imageToPrint.getHeight(null) * 9, null);
+        graphics.drawImage(imageToPrint, 0, 0, imageToPrint.getWidth(null),
+            imageToPrint.getHeight(null) , null);
         return PAGE_EXISTS;
       }
     });
     if (printerJob.printDialog()) {
       try {
         printerJob.print();
+        System.out.println("printed");
       } catch (PrinterException prt) {
         prt.printStackTrace();
         System.err.println("Printer failed to print");
