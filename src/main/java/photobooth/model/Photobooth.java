@@ -32,6 +32,7 @@ import java.nio.file.Path;
  * Printing Using PrintJob
  * <a href="https://stackoverflow.com/questions/10479621/how-to-print-image-in-java#:~:text=Sorted%20by:,4%2C9693%2028%2037"></a>
  * <a href="https://stackoverflow.com/questions/5338423/print-a-image-with-actual-size-in-java"></a>
+ * <a href="https://stackoverflow.com/questions/11801159/how-to-print-without-showing-printdialog-in-java"></a>
  *
  * Converting IplImage to Image:
  * <a href="https://stackoverflow.com/questions/31873704/javacv-how-to-convert-iplimage-tobufferedimage"></a>
@@ -175,7 +176,8 @@ public class Photobooth implements PhotoboothModel {
         return PAGE_EXISTS;
       }
     });
-    if (printerJob.printDialog()) {
+    // Omitting print dialog popup for smoother UI
+    //if (printerJob.printDialog()) {
       try {
         printerJob.print();
         System.out.println("printed");
@@ -183,7 +185,7 @@ public class Photobooth implements PhotoboothModel {
         prt.printStackTrace();
         System.err.println("Printer failed to print");
       }
-    }
+    //}
 
 
   }
